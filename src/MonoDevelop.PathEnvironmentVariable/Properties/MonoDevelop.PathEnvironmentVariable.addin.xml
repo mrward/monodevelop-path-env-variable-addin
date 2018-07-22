@@ -1,0 +1,14 @@
+﻿<ExtensionModel>
+	<Runtime>
+		<Import assembly="MonoDevelop.PathEnvironmentVariable.dll" />
+	</Runtime>
+
+	<Extension path="/MonoDevelop/Ide/GlobalOptionsDialog/Preferences">
+		<Section
+			id="PathEnvironmentVariableGeneral"
+			_label="Path"
+			icon = "md-prefs-sdk-locations"
+			fill="true"
+			class="MonoDevelop.PathEnvironmentVariable.PathEnvironmentVariableOptionsPanel" />
+	</Extension>
+</ExtensionModel>
