@@ -1,5 +1,5 @@
 ﻿//
-// PathEnvironmentVariableOptionsPanel.cs
+// StringExtensions.cs
 //
 // Author:
 //       Matt Ward <matt.ward@microsoft.com>
@@ -25,35 +25,33 @@
 // THE SOFTWARE.
 
 using System;
-using System.IO;
+using System.Text;
 
 namespace MonoDevelop.PathEnvironmentVariable
 {
-	partial class PathEnvironmentVariableOptionsWidget
+	static class StringExtensions
 	{
-		public PathEnvironmentVariableOptionsWidget ()
+		public static string Replace (this string original, string oldValue, string newValue, StringComparison comparison)
 		{
-			Build ();
-			LoadPaths ();
-		}
+			var builder = new StringBuilder ();
 
-		public string ModifiedPathEnvironmentVariableValue {
-			get { return pathTextEntry.Text; }
-		}
+			string text = null;
+			int previousIndex = 0;
+			int index = original.IndexOf (oldValue, comparison);
 
-		void LoadPaths ()
-		{
-			pathTextEntry.Text = PathEnvironmentVariableService.ModifiedPathEnvironmentValue;
+			while (index >= 0) {
+				text = original.Substring (previousIndex, index - previousIndex);
+				builder.Append (text);
+				builder.Append (newValue);
 
-			string environmentVariableValue = PathEnvironmentVariableService.OriginalPathEnvironmentValue;
-			if (string.IsNullOrEmpty (environmentVariableValue))
-				return;
-
-			string[] paths = environmentVariableValue.Split (Path.PathSeparator);
-			foreach (string path in paths) {
-				int row = listStore.AddRow ();
-				listStore.SetValue (row, pathColumn, path);
+				previousIndex = index + oldValue.Length;
+				index = original.IndexOf (oldValue, previousIndex, comparison);
 			}
+
+			text = original.Substring (previousIndex);
+			builder.Append (text);
+
+			return builder.ToString ();
 		}
 	}
 }

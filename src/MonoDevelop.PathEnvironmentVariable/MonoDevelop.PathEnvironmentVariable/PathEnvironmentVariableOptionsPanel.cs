@@ -31,15 +31,19 @@ namespace MonoDevelop.PathEnvironmentVariable
 {
 	class PathEnvironmentVariableOptionsPanel : OptionsPanel
 	{
+		PathEnvironmentVariableOptionsWidget widget;
+		XwtControl control;
+
 		public override void ApplyChanges ()
 		{
-		
+			PathEnvironmentVariableService.UpdatePathEnvironmentValue (widget.ModifiedPathEnvironmentVariableValue);
 		}
 
 		public override Control CreatePanelWidget ()
 		{
-			var widget = new PathEnvironmentVariableOptionsWidget ();
-			return widget.ToGtkWidget ();
+			widget = new PathEnvironmentVariableOptionsWidget ();
+			control = new XwtControl (widget);
+			return control;
 		}
 	}
 }

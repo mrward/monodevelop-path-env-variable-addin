@@ -1,5 +1,5 @@
 ﻿//
-// PathEnvironmentVariableOptionsPanel.cs
+// PathEnvironmentVariableStartupHandler.cs
 //
 // Author:
 //       Matt Ward <matt.ward@microsoft.com>
@@ -24,36 +24,15 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using System;
-using System.IO;
+using MonoDevelop.Components.Commands;
 
 namespace MonoDevelop.PathEnvironmentVariable
 {
-	partial class PathEnvironmentVariableOptionsWidget
+	class PathEnvironmentVariableStartupHandler : CommandHandler
 	{
-		public PathEnvironmentVariableOptionsWidget ()
+		protected override void Run ()
 		{
-			Build ();
-			LoadPaths ();
-		}
-
-		public string ModifiedPathEnvironmentVariableValue {
-			get { return pathTextEntry.Text; }
-		}
-
-		void LoadPaths ()
-		{
-			pathTextEntry.Text = PathEnvironmentVariableService.ModifiedPathEnvironmentValue;
-
-			string environmentVariableValue = PathEnvironmentVariableService.OriginalPathEnvironmentValue;
-			if (string.IsNullOrEmpty (environmentVariableValue))
-				return;
-
-			string[] paths = environmentVariableValue.Split (Path.PathSeparator);
-			foreach (string path in paths) {
-				int row = listStore.AddRow ();
-				listStore.SetValue (row, pathColumn, path);
-			}
+			PathEnvironmentVariableService.Init ();
 		}
 	}
 }

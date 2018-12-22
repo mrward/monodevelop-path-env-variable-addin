@@ -11,4 +11,8 @@
 			fill="true"
 			class="MonoDevelop.PathEnvironmentVariable.PathEnvironmentVariableOptionsPanel" />
 	</Extension>
+
+	<Extension path="/MonoDevelop/Ide/StartupHandlers">
+		<Class class="MonoDevelop.PathEnvironmentVariable.PathEnvironmentVariableStartupHandler" />
+	</Extension>
 </ExtensionModel>

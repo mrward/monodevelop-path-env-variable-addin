@@ -41,6 +41,9 @@
     <Compile Include="MonoDevelop.PathEnvironmentVariable\PathEnvironmentVariableOptionsWidget.UI.cs">
       <DependentUpon>PathEnvironmentVariableOptionsWidget.cs</DependentUpon>
     </Compile>
+    <Compile Include="MonoDevelop.PathEnvironmentVariable\PathEnvironmentVariableService.cs" />
+    <Compile Include="MonoDevelop.PathEnvironmentVariable\StringExtensions.cs" />
+    <Compile Include="MonoDevelop.PathEnvironmentVariable\PathEnvironmentVariableStartupHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="MonoDevelop.PathEnvironmentVariable\" />

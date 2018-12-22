@@ -24,6 +24,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+using MonoDevelop.Core;
 using Xwt;
 
 namespace MonoDevelop.PathEnvironmentVariable
@@ -33,11 +34,33 @@ namespace MonoDevelop.PathEnvironmentVariable
 		ListView listView;
 		ListStore listStore;
 		DataField<string> pathColumn;
+		TextEntry pathTextEntry;
 
 		void Build ()
 		{
-			pathColumn = new DataField<string> ();
+			var mainVBox = new VBox ();
 
+			var pathValueLabel = new Label ();
+			pathValueLabel.Markup = ToBoldText (GettextCatalog.GetString ("Modified Path Environment Variable"));
+			mainVBox.PackStart (pathValueLabel);
+
+			var pathValueHelpInformationLabel = new Label ();
+			if (Platform.IsWindows) {
+				pathValueHelpInformationLabel.Text = GettextCatalog.GetString ("Use %PATH% to reference the original Path environment variable value used on startup.");
+			} else {
+				pathValueHelpInformationLabel.Text = GettextCatalog.GetString ("Use $PATH to reference the original Path environment variable value used on startup.");
+			}
+			mainVBox.PackStart (pathValueHelpInformationLabel);
+
+			pathTextEntry = new TextEntry ();
+			mainVBox.PackStart (pathTextEntry);
+
+			var originalPathLabel = new Label ();
+			originalPathLabel.Markup = ToBoldText (GettextCatalog.GetString ("Original Path Environment Variable"));
+			originalPathLabel.MarginTop += 10;
+			mainVBox.PackStart (originalPathLabel);
+
+			pathColumn = new DataField<string> ();
 			listStore = new ListStore (pathColumn);
 
 			listView = new ListView ();
@@ -45,7 +68,14 @@ namespace MonoDevelop.PathEnvironmentVariable
 			listView.Columns.Add ("Name", pathColumn);
 
 			listView.DataSource = listStore;
-			Content = listView;
+			mainVBox.PackStart (listView, true, true);
+
+			Content = mainVBox;
+		}
+
+		static string ToBoldText (string text)
+		{
+			return $"<b>{text}</b>";
 		}
 	}
 }
